@@ -1,6 +1,9 @@
-# Install Geth (Go for Ethereum)
+# Download & Install
+- Geth (Go for Ethereum)
 To download Geth version that match your OS: https://geth.ethereum.org/downloads/
 <img src="https://github.com/wichit/blockchain/blob/master/geth_client.jpg">
+
+- Remix - Browser solidity tool to learn the smart contract
 
 # blockchain
 All inbox for Blockchain Workshop
