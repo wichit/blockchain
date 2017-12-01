@@ -3,7 +3,10 @@
 To download Geth version that match your OS: https://geth.ethereum.org/downloads/
 <img src="https://github.com/wichit/blockchain/blob/master/geth_client.jpg">
 
-- Remix - Browser solidity tool for learning solidity and the smart contract
+- Remix - Solidity IDE
+Browser solidity tool for learning solidity and the smart contract
+To access the tool online: https://remix.ethereum.org/
+Tutorial on Solidity: https://solidity.readthedocs.io/en/develop/
 
 # blockchain
 All inbox for Blockchain Workshop
