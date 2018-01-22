@@ -5,6 +5,7 @@ To download Geth version that match your OS: https://geth.ethereum.org/downloads
 
 - Remix - Solidity IDE
 Browser solidity tool for learning solidity and the smart contract
+To download and work offline: https://github.com/ethereum/browser-solidity/tree/gh-pages
 To access the tool online: https://remix.ethereum.org/
 - Tutorial on Solidity: https://solidity.readthedocs.io/en/develop/
 
