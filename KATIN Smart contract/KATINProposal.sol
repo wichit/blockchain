@@ -143,6 +143,8 @@ contract Proposal is ContractReceiver {
     }
 
     function verify() public {
+        require(keccak256(status) == keccak256("Voting"));
+
         // Passed deadline
         if (now > votingDeadline) {
             if(progress < goal) {
@@ -154,7 +156,8 @@ contract Proposal is ContractReceiver {
         }
     }
 
-    function returnTokens() public {
+    // Return all tokens to participants
+    function returnTokens() private {
         ERC20 katinCoin = ERC20(token);
         for (uint i = 0; i <  votes.length; ++i) {
             Vote storage v = votes[i];
