@@ -147,7 +147,7 @@ contract Proposal is ContractReceiver {
         if (now > votingDeadline) {
             if(progress < goal) {
                 status = "Failed";
-                // returnTokens();
+                returnTokens();
             } else {
                 status = "Success";
             }
@@ -160,17 +160,9 @@ contract Proposal is ContractReceiver {
             Vote storage v = votes[i];
             
             
-            require(katinCoin.transfer( v.voter, v.amount));
+            katinCoin.transfer( v.voter, v.amount);
         }
     }
-
-    // function returnToken2() public {
-    //     address  myAddress = 0x14723a09acff6d2a60dcdf7aa4aff308fddc160c;
-
-    //     ERC20 t = ERC20(token);
-    //     // send to caller
-    //     require(t.transfer(myAddress, 1));
-    // }
 
     function voteBy(address _voter) public view returns (uint256) {
         uint256 amount = 0;
