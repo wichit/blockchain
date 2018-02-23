@@ -88,7 +88,9 @@ contract Proposal is ContractReceiver {
     address public token;
     uint public periodInMinutes;
     uint public votingDeadline;
-    string public status;
+
+    enum Status { Voting, Success, Failed }
+    Status public status = Status.Voting;
 
     struct Vote {
         address voter;
@@ -118,14 +120,13 @@ contract Proposal is ContractReceiver {
         description = _description;
         periodInMinutes = _periodInMinutes;
         votingDeadline = now + _periodInMinutes * 1 minutes;
-        status = "Voting";
     }
 
     // Need action: check to only accept KATIN Token
     function tokenFallback(address _sender,
                        uint256 _value,
                        bytes _extraData) public returns (bool) {
-        require(keccak256(status) == keccak256("Voting"));
+        require(status == Status.Voting);
         require(token == msg.sender);
         require(now <= votingDeadline);
         require(goal >= progress.add(_value));
@@ -136,22 +137,22 @@ contract Proposal is ContractReceiver {
         progress = progress.add(_value);
 
         if (goal == progress) {
-            status = "Success";
+            status = Status.Success;
         }
 
         TokenFallback(_sender, _value, _extraData);
     }
 
     function verify() public {
-        require(keccak256(status) == keccak256("Voting"));
+        require(status == Status.Voting);
 
         // Passed deadline
         if (now > votingDeadline) {
             if(progress < goal) {
-                status = "Failed";
+                status = Status.Failed;
                 returnTokens();
             } else {
-                status = "Success";
+                status = Status.Success;
             }
         }
     }
