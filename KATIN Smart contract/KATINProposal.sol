@@ -89,8 +89,13 @@ contract Proposal is ContractReceiver {
     uint public periodInMinutes;
     uint public votingDeadline;
 
+    // Proposal current status
     enum Status { Voting, Success, Failed }
     Status public status = Status.Voting;
+
+    // Proposal document url
+    string public documentUrl;
+    string public documentHash;
 
     struct Vote {
         address voter;
@@ -106,12 +111,16 @@ contract Proposal is ContractReceiver {
      * @param _goal Amount of KATIN Coin goal
      * @param _description Description of proposal
      * @param _periodInMinutes Goal deadline in minutes
+     * @param _documentUrl Document url
+     * @param _documentHash Document hash
      */
     function Proposal(
         address _token,
         uint256 _goal,
         string _description,
-        uint _periodInMinutes
+        uint _periodInMinutes,
+        string _documentUrl,
+        string _documentHash
     )
         public
     {
@@ -120,6 +129,8 @@ contract Proposal is ContractReceiver {
         description = _description;
         periodInMinutes = _periodInMinutes;
         votingDeadline = now + _periodInMinutes * 1 minutes;
+        documentUrl = _documentUrl;
+        documentHash = _documentHash;
     }
 
     // Need action: check to only accept KATIN Token
