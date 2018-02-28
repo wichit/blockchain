@@ -272,6 +272,7 @@ contract MintableToken is StandardToken, Ownable {
 }
 
 contract KmMintableToken is MintableToken {
+    using SafeMath for uint256;
     uint256 kmrate = 10 ** 18;
     /**
     * @dev Function to mint tokens
@@ -280,8 +281,7 @@ contract KmMintableToken is MintableToken {
     * @return A boolean that indicates if the operation was successful.
     */
     function mintKm(address _to, uint256 _km) public onlyOwner canMint returns (bool) {
-        uint256 _amount = _km * kmrate;
-        require(_amount > kmrate && _amount > _km);
+        uint256 _amount = _km.mul(kmrate);
         return mint(_to, _amount);
     } 
 }
