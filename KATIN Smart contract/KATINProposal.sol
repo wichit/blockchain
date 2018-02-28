@@ -80,6 +80,15 @@ contract Proposal is ContractReceiver {
                        uint256 _value,
                        bytes _extraData);
 
+    address public mainContract;
+    /**
+    * @dev Throws if called by any account other than the main contract.
+    */
+    modifier onlyMainContract() {
+        require(msg.sender == mainContract);
+        _;
+    }
+
     Vote[] public votes;
     uint256 public goal;
     uint256 public progress;
@@ -96,6 +105,14 @@ contract Proposal is ContractReceiver {
     // Proposal document url
     string public documentUrl;
     string public documentHash;
+
+    // Proposal delivery document url
+    string public deliveryDocUrl;
+    string public deliveryDocHash;
+
+    // Proposal delivery status
+    enum DeliveryStatus { Waiting, Sent, Failed }
+    DeliveryStatus public deliveryStatus = DeliveryStatus.Waiting;
 
     struct Vote {
         address voter;
@@ -115,6 +132,7 @@ contract Proposal is ContractReceiver {
      * @param _documentHash Document hash
      */
     function Proposal(
+        address _mainContract,
         address _token,
         uint256 _goal,
         string _description,
@@ -124,6 +142,7 @@ contract Proposal is ContractReceiver {
     )
         public
     {
+        mainContract = _mainContract;
         token = _token;
         goal = _goal;
         description = _description;
@@ -188,5 +207,22 @@ contract Proposal is ContractReceiver {
             }
         }
         return amount;
+    }
+
+    /**
+     * Update delivery state
+     *
+     * Main contract update delivery state when sent or failed
+     *
+     * @param _documentUrl document url for delivery confirmation
+     * @param _documentHash document hash with sha3
+     * @param _status delivery status
+     */
+    function updateDelivery(string _documentUrl, string _documentHash, DeliveryStatus _status) public onlyMainContract returns (bool) {
+        deliveryDocUrl = _documentUrl;
+        deliveryDocHash = _documentHash;
+        deliveryStatus = _status;
+
+        return true;
     }
 }
