@@ -170,18 +170,21 @@
             }
             
             // Transfer katin
-            function katinTransfer() {
+            function _katinTransfer(amount, addr) {
                 var contract = getTakinToken();
-                var amount = $("#katin_transfer_amount").val();
-                var addr = $("#katin_transfer_addr").val();
                 
                 console.log(amount, addr);
-                
-                
-                 contract.transfer( addr, amount, function(err,ok) { 
+                contract.transfer( addr, amount, function(err,ok) { 
                     console.log(err,ok) ;
                     // $("#Katin_total_supply").text(ok.c[0]);
                 } );
+            }
+            
+            // Transfer katin
+            function katinTransfer() {
+                var amount = $("#katin_transfer_amount").val();
+                var addr = $("#katin_transfer_addr").val();
+                _katinTransfer(amount, addr);
             }
             
             // Get katin balance of
@@ -364,6 +367,15 @@
                 });
             }
             
+            // Vote proposal
+            function voteForProposal(index) {
+                var amount = $("#proposal_" + index + "_vote_amount").val();
+                
+                getProposalAddrAtIndex(index, function (addr) {
+                    _katinTransfer(amount, addr);
+                });
+            }
+            
             // Get Proposal contract
             function getProposalContract(addr) {
                 var abi = [ { "constant": true, "inputs": [], "name": "votingDeadline", "outputs": [ { "name": "", "type": "uint256", "value": "1519837521" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "deliveryStatus", "outputs": [ { "name": "", "type": "uint8", "value": "0" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "status", "outputs": [ { "name": "", "type": "uint8", "value": "0" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "documentUrl", "outputs": [ { "name": "", "type": "string", "value": "http://www.fourleaf.life" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "goal", "outputs": [ { "name": "", "type": "uint256", "value": "1000" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "progress", "outputs": [ { "name": "", "type": "uint256", "value": "0" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "votes", "outputs": [ { "name": "voter", "type": "address", "value": "0x" }, { "name": "amount", "type": "uint256", "value": "0" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "description", "outputs": [ { "name": "", "type": "string", "value": "let's go" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "periodInMinutes", "outputs": [ { "name": "", "type": "uint256", "value": "20" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "documentHash", "outputs": [ { "name": "", "type": "string", "value": "hash1" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "_voter", "type": "address" } ], "name": "voteBy", "outputs": [ { "name": "", "type": "uint256", "value": "0" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_documentUrl", "type": "string" }, { "name": "_documentHash", "type": "string" }, { "name": "_status", "type": "uint8" } ], "name": "updateDelivery", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "deliveryDocUrl", "outputs": [ { "name": "", "type": "string", "value": "" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_sender", "type": "address" }, { "name": "_value", "type": "uint256" }, { "name": "_extraData", "type": "bytes" } ], "name": "tokenFallback", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "deliveryDocHash", "outputs": [ { "name": "", "type": "string", "value": "" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "mainContract", "outputs": [ { "name": "", "type": "address", "value": "0xdf7f45f0e1a80b430ecac0c9db79219a7fffb416" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "token", "outputs": [ { "name": "", "type": "address", "value": "0x1fb1670e4ba34238cf16e5491ee6b2c436b52b38" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [], "name": "verify", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "name": "_mainContract", "type": "address", "index": 0, "typeShort": "address", "bits": "", "displayName": "&thinsp;<span class=\"punctuation\">_</span>&thinsp;main Contract", "template": "elements_input_address", "value": "0xdf7F45F0e1a80B430ECAc0c9DB79219a7FFFB416" }, { "name": "_token", "type": "address", "index": 1, "typeShort": "address", "bits": "", "displayName": "&thinsp;<span class=\"punctuation\">_</span>&thinsp;token", "template": "elements_input_address", "value": "" }, { "name": "_goal", "type": "uint256", "index": 2, "typeShort": "uint", "bits": "256", "displayName": "&thinsp;<span class=\"punctuation\">_</span>&thinsp;goal", "template": "elements_input_uint", "value": "" }, { "name": "_description", "type": "string", "index": 3, "typeShort": "string", "bits": "", "displayName": "&thinsp;<span class=\"punctuation\">_</span>&thinsp;description", "template": "elements_input_string", "value": "" }, { "name": "_periodInMinutes", "type": "uint256", "index": 4, "typeShort": "uint", "bits": "256", "displayName": "&thinsp;<span class=\"punctuation\">_</span>&thinsp;period In Minutes", "template": "elements_input_uint", "value": "" }, { "name": "_documentUrl", "type": "string", "index": 5, "typeShort": "string", "bits": "", "displayName": "&thinsp;<span class=\"punctuation\">_</span>&thinsp;document Url", "template": "elements_input_string", "value": "" }, { "name": "_documentHash", "type": "string", "index": 6, "typeShort": "string", "bits": "", "displayName": "&thinsp;<span class=\"punctuation\">_</span>&thinsp;document Hash", "template": "elements_input_string", "value": "" } ], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "_sender", "type": "address" }, { "indexed": false, "name": "_value", "type": "uint256" }, { "indexed": false, "name": "_extraData", "type": "bytes" } ], "name": "TokenFallback", "type": "event" } ];
@@ -503,6 +515,10 @@
             </table>
         </div>
         
+        <div style="clear:both;">
+            
+        </div>
+        
         <!---- Proposal 0 ----> 
         <div style="border: 1px solid;padding: 1em;border-radius: 1em;margin: 2em;float: left;">
             <span style="text-align: center;display: block;">Proposal 0</span>
@@ -558,6 +574,40 @@
                     </tr>
                     <tr>
                         <td class="label">document hash:</td><td><span id="proposal_1_document_hash"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!---- Proposal 2 ----> 
+        <div style="border: 1px solid;padding: 1em;border-radius: 1em;margin: 2em;float: left;">
+            <span style="text-align: center;display: block;">Proposal 2</span>
+            <table class="info">
+                <tbody>
+                    <tr>
+                        <td class="label">address:</td><td><span id="proposal_2_addr"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="label">description:</td><td><span id="proposal_2_description"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="label">goal:</td><td><span id="proposal_2_goal"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="label">progress:</td><td><span id="proposal_2_progress"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="label">status:</td><td><span id="proposal_2_status"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="label">document url:</td><td><span id="proposal_2_document_url"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="label">document hash:</td><td><span id="proposal_2_document_hash"></span></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" name="proposal_2_vote_amount" id="proposal_2_vote_amount" placeholder="amount"/></td>
+                        <td class="label"><input type="button" value="Vote" name="Vote" onClick="javascript:voteForProposal(2);" /></td>
                     </tr>
                 </tbody>
             </table>
