@@ -134,4 +134,11 @@ contract Main is Ownable {
 
         return proposal.updateDelivery(_documentUrl, _documentHash, Proposal.DeliveryStatus.Sent);
     }
+
+    function updateProposalDeliveryFailed(uint256 _index, string _documentUrl, string _documentHash) public onlyOwner returns (bool) {
+        Proposal proposal = Proposal(proposals[_index]);
+        require(Proposal.Status.Success == proposal.status());
+
+        return proposal.updateDelivery(_documentUrl, _documentHash, Proposal.DeliveryStatus.Failed);
+    }
 }
