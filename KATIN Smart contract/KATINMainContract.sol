@@ -162,4 +162,8 @@ contract Main is Ownable {
 
         return proposal.updateDelivery(_documentUrl, _documentHash, Proposal.DeliveryStatus.Failed);
     }
+
+    function proposalCount() public view returns (uint256) {
+        return proposals.length;
+    }
 }
