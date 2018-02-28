@@ -105,6 +105,7 @@ contract Main is Ownable {
                         uint256 _value);
 
     
+    // list of proposals, including ongoing, success and failed proposals
     address[] public proposals;
 
     /**
@@ -128,6 +129,16 @@ contract Main is Ownable {
         return true;
     }
 
+    /**
+        @dev Mark a proposal as delivered
+        throws on any error rather then return a false flag to minimize user errors
+
+        @param _index index of proposal
+        @param _documentUrl document that prove of delivered
+        @param _documentHash sha3 hash of _documentUrl
+
+        @return true if success, false if it wasn't
+    */
     function updateProposalDeliverySuccess(uint256 _index, string _documentUrl, string _documentHash) public onlyOwner returns (bool) {
         Proposal proposal = Proposal(proposals[_index]);
         require(Proposal.Status.Success == proposal.status());
@@ -135,6 +146,16 @@ contract Main is Ownable {
         return proposal.updateDelivery(_documentUrl, _documentHash, Proposal.DeliveryStatus.Sent);
     }
 
+    /**
+        @dev Mark a proposal as failed to deliver
+        throws on any error rather then return a false flag to minimize user errors
+
+        @param _index index of proposal
+        @param _documentUrl document that prove of failed to deliver
+        @param _documentHash sha3 hash of _documentUrl
+
+        @return true if success, false if it wasn't
+    */
     function updateProposalDeliveryFailed(uint256 _index, string _documentUrl, string _documentHash) public onlyOwner returns (bool) {
         Proposal proposal = Proposal(proposals[_index]);
         require(Proposal.Status.Success == proposal.status());
