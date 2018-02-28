@@ -114,7 +114,15 @@ contract Main is Ownable {
         EtherReceive(msg.sender, msg.value);
     }
 
-    function newProposal(address _proposal) public onlyOwner returns (bool) {
+    /**
+        @dev list a pre-created proposal
+        throws on any error rather then return a false flag to minimize user errors
+
+        @param _proposal proposal address
+
+        @return true if there's a compatible proposal, false if it wasn't
+    */
+    function acceptProposal(address _proposal) public onlyOwner returns (bool) {
         // TODO: Check if correct proposal
         proposals.push( _proposal );
         return true;
