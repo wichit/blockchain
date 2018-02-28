@@ -115,7 +115,7 @@ contract Main is Ownable {
     }
 
     function newProposal(address _proposal) public onlyOwner returns (bool) {
-        // TODO: Check if coreect proposal
+        // TODO: Check if correct proposal
         proposals.push( _proposal );
         return true;
     }
