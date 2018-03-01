@@ -310,6 +310,53 @@
                 } );
             }
             
+            // Get Proposal vote
+            function getProposalVoter(addr, index, callback) {
+                var contract = getProposalContract(addr);
+                 contract.votes(index, function(err,ok) { 
+                    console.log(err,ok);
+                    var voterAddr = ok[0];
+                    var amount = ok[1].c[0];
+                    callback(voterAddr, amount);
+                } );
+            }
+            
+            // Display Proposal voter
+            function displayProposalVoter(proposalIndex) {
+                var voterIndex = $("#proposal_" + proposalIndex + "_voter_index").val();
+
+                getProposalAddrAtIndex(proposalIndex, function (addr) {
+                    getProposalVoter(addr, voterIndex, function (voterAddr, amount) {
+                        console.log(voterAddr, amount);
+                        
+                        $("#proposal_" + proposalIndex + "_voter_index_address").text(voterAddr);
+                        $("#proposal_" + proposalIndex + "_voter_index_amount").text(amount);
+                    });
+                });
+            }
+            
+            // Get Proposal voter from address
+            function getProposalVoterAddr(addr, voterAddr, callback) {
+                var contract = getProposalContract(addr);
+                 contract.voteBy(voterAddr, function(err,ok) { 
+                    console.log(err,ok.c[0]);
+                    callback(ok.c[0]);
+                } );
+            }
+            
+            // Display Proposal voter from address
+            function displayProposalVoterAddr(proposalIndex) {
+                var voterAddr = $("#proposal_" + proposalIndex + "_voter_addr").val();
+
+                getProposalAddrAtIndex(proposalIndex, function (addr) {
+                    getProposalVoterAddr(addr, voterAddr, function (amount) {
+                        console.log(amount);
+                        
+                        $("#proposal_" + proposalIndex + "_voter_addr_amount").text(amount);
+                    });
+                });
+            }
+            
             // Get proposal addr
             function getProposalAddrAtIndex(index, callback) {
                 var contract = getMainContract();
@@ -358,10 +405,36 @@
                 });
             }
             
+            function cloneProposal(index) {
+                var a = $("#proposal_copy").clone();
+                $(a).find(".proposal_name").text("Proposal " + index);
+                $(a).find(".proposal_addr").attr("id", "proposal_" + index + "_addr");
+                $(a).find(".proposal_description").attr("id", "proposal_" + index + "_description");
+                $(a).find(".proposal_goal").attr("id", "proposal_" + index + "_goal");
+                $(a).find(".proposal_progress").attr("id", "proposal_" + index + "_progress");
+                $(a).find(".proposal_status").attr("id", "proposal_" + index + "_status");
+                $(a).find(".proposal_document_url").attr("id", "proposal_" + index + "_document_url");
+                $(a).find(".proposal_document_hash").attr("id", "proposal_" + index + "_document_hash");
+                $(a).find(".proposal_vote_amount").attr("id", "proposal_" + index + "_vote_amount");
+                $(a).find(".proposal_vote_button").attr("onClick", "javascript:voteForProposal(" + index + ");");
+                
+                $(a).find(".proposal_voter_index").attr("id", "proposal_" + index + "_voter_index");
+                $(a).find(".proposal_voter_index_button").attr("onClick", "javascript:displayProposalVoter(" + index + ");");
+                $(a).find(".proposal_voter_index_address").attr("id", "proposal_" + index + "_voter_index_address");
+                $(a).find(".proposal_voter_index_amount").attr("id", "proposal_" + index + "_voter_index_amount");
+                
+                $(a).find(".proposal_voter_addr").attr("id", "proposal_" + index + "_voter_addr");
+                $(a).find(".proposal_voter_addr_button").attr("onClick", "javascript:displayProposalVoterAddr(" + index + ");");
+                $(a).find(".proposal_voter_addr_amount").attr("id", "proposal_" + index + "_voter_addr_amount");
+                        
+                $(a).appendTo("#more_proposals");
+            }
+            
             // Show proposals information
             function displayProposals() {
                 getMainContractProposalCount( function (count) {
                     for (var i = 0; i < count; i++) {
+                        cloneProposal(i);
                         displayProposal(i);
                     }
                 });
@@ -519,106 +592,60 @@
             
         </div>
         
-        <!---- Proposal 0 ----> 
-        <div style="border: 1px solid;padding: 1em;border-radius: 1em;margin: 2em;float: left;">
-            <span style="text-align: center;display: block;">Proposal 0</span>
+        <!---- Proposal copy ----> 
+        <div style="display:none;">
+            <div id="proposal_copy" style="border: 1px solid;padding: 1em;border-radius: 1em;margin: 2em;float: left;">
+            <span style="text-align: center;display: block;" class="proposal_name">Proposal copy</span>
             <table class="info">
                 <tbody>
                     <tr>
-                        <td class="label">address:</td><td><span id="proposal_0_addr"></span></td>
+                        <td class="label">address:</td><td><span class="proposal_addr"></span></td>
                     </tr>
                     <tr>
-                        <td class="label">description:</td><td><span id="proposal_0_description"></span></td>
+                        <td class="label">description:</td><td><span class="proposal_description"></span></td>
                     </tr>
                     <tr>
-                        <td class="label">goal:</td><td><span id="proposal_0_goal"></span></td>
+                        <td class="label">goal:</td><td><span class="proposal_goal"></span></td>
                     </tr>
                     <tr>
-                        <td class="label">progress:</td><td><span id="proposal_0_progress"></span></td>
+                        <td class="label">progress:</td><td><span class="proposal_progress"></span></td>
                     </tr>
                     <tr>
-                        <td class="label">status:</td><td><span id="proposal_0_status"></span></td>
+                        <td class="label">status:</td><td><span class="proposal_status"></span></td>
                     </tr>
                     <tr>
-                        <td class="label">document url:</td><td><span id="proposal_0_document_url"></span></td>
+                        <td class="label">document url:</td><td><span class="proposal_document_url"></span></td>
                     </tr>
                     <tr>
-                        <td class="label">document hash:</td><td><span id="proposal_0_document_hash"></span></td>
+                        <td class="label">document hash:</td><td><span class="proposal_document_hash"></span></td>
                     </tr>
                     <tr>
-                        <td><input type="text" name="proposal_0_vote_amount" id="proposal_0_vote_amount" placeholder="amount"/></td>
-                        <td class="label"><input type="button" value="Vote" name="Vote" onClick="javascript:voteForProposal(0);" /></td>
+                        <td><input type="text" class="proposal_vote_amount" placeholder="amount"/></td>
+                        <td class="label"><input class="proposal_vote_button" type="button" value="Vote" name="Vote" onClick="javascript:voteForProposal(xx);" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="proposal_voter_index" placeholder="voter index"/></td>
+                        <td class="label"><input class="proposal_voter_index_button" type="button" value="Load" name="Load" onClick="javascript:displayProposalVoter(xx);" /></td>
+                    </tr>
+                    <tr>
+                        <td><span class="proposal_voter_index_address"></span></td>
+                        <td><span class="proposal_voter_index_amount"></span></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="proposal_voter_addr" placeholder="voter address"/></td>
+                        <td class="label"><input class="proposal_voter_addr_button" type="button" value="Load" name="Load" onClick="javascript:displayProposalVoterAddr(xx);" /></td>
+                    </tr>
+                    <tr>
+                        <td><span class="proposal_voter_addr_amount"></span></td>
                     </tr>
                 </tbody>
             </table>
+        </div>
         </div>
         
-        <!---- Proposal 1 ----> 
-        <div style="border: 1px solid;padding: 1em;border-radius: 1em;margin: 2em;float: left;">
-            <span style="text-align: center;display: block;">Proposal 1</span>
-            <table class="info">
-                <tbody>
-                    <tr>
-                        <td class="label">address:</td><td><span id="proposal_1_addr"></span></td>
-                    </tr>
-                    <tr>
-                        <td class="label">description:</td><td><span id="proposal_1_description"></span></td>
-                    </tr>
-                    <tr>
-                        <td class="label">goal:</td><td><span id="proposal_1_goal"></span></td>
-                    </tr>
-                    <tr>
-                        <td class="label">progress:</td><td><span id="proposal_1_progress"></span></td>
-                    </tr>
-                    <tr>
-                        <td class="label">status:</td><td><span id="proposal_1_status"></span></td>
-                    </tr>
-                    <tr>
-                        <td class="label">document url:</td><td><span id="proposal_1_document_url"></span></td>
-                    </tr>
-                    <tr>
-                        <td class="label">document hash:</td><td><span id="proposal_1_document_hash"></span></td>
-                    </tr>
-                    <tr>
-                        <td><input type="text" name="proposal_1_vote_amount" id="proposal_1_vote_amount" placeholder="amount"/></td>
-                        <td class="label"><input type="button" value="Vote" name="Vote" onClick="javascript:voteForProposal(1);" /></td>
-                    </tr>
-                </tbody>
-            </table>
+        <div id="more_proposals">
+            
         </div>
         
-        <!---- Proposal 2 ----> 
-        <div style="border: 1px solid;padding: 1em;border-radius: 1em;margin: 2em;float: left;">
-            <span style="text-align: center;display: block;">Proposal 2</span>
-            <table class="info">
-                <tbody>
-                    <tr>
-                        <td class="label">address:</td><td><span id="proposal_2_addr"></span></td>
-                    </tr>
-                    <tr>
-                        <td class="label">description:</td><td><span id="proposal_2_description"></span></td>
-                    </tr>
-                    <tr>
-                        <td class="label">goal:</td><td><span id="proposal_2_goal"></span></td>
-                    </tr>
-                    <tr>
-                        <td class="label">progress:</td><td><span id="proposal_2_progress"></span></td>
-                    </tr>
-                    <tr>
-                        <td class="label">status:</td><td><span id="proposal_2_status"></span></td>
-                    </tr>
-                    <tr>
-                        <td class="label">document url:</td><td><span id="proposal_2_document_url"></span></td>
-                    </tr>
-                    <tr>
-                        <td class="label">document hash:</td><td><span id="proposal_2_document_hash"></span></td>
-                    </tr>
-                    <tr>
-                        <td><input type="text" name="proposal_2_vote_amount" id="proposal_2_vote_amount" placeholder="amount"/></td>
-                        <td class="label"><input type="button" value="Vote" name="Vote" onClick="javascript:voteForProposal(2);" /></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
     </body>
 </html>
