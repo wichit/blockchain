@@ -225,4 +225,8 @@ contract Proposal is ContractReceiver {
 
         return true;
     }
+
+    function voteCount() public view returns (uint256) {
+        return votes.length;
+    }
 }
