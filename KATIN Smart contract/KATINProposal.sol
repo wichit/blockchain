@@ -201,7 +201,8 @@ contract Proposal is ContractReceiver {
     function voteBy(address _voter) public view returns (uint256) {
         uint256 amount = 0;
         for (uint i = 0; i <  votes.length; ++i) {
-            Vote storage v = votes[i];
+            // Todo: may change to memory
+            Vote memory v = votes[i];
             if (v.voter == _voter) {
                 amount = amount.add(v.amount);
             }
