@@ -125,9 +125,10 @@
                 console.log(contract);
                 
                 web3.eth.getAccounts( (err, ok) => account = ok[0] );
-                contract.balanceOf( account, function(err,ok) { 
-                    console.log(err,ok.c[0]) ;
-                    $("#Katin_balance").text(ok.c[0]);
+                contract.balanceOf( account, function(err, result) { 
+                    console.log(err, result.c[0]) ;
+                    
+                    $("#Katin_balance").text( web3.fromWei(result.toNumber()) );
                 } );
             }
             
@@ -152,9 +153,9 @@
             // Get katin total supply
             function getKatinTotalSupply() {
                 var contract = getTakinToken();
-                 contract.totalSupply( function(err,ok) { 
-                    console.log(err,ok) ;
-                    $("#Katin_total_supply").text(ok.c[0]);
+                 contract.totalSupply( function(err,result) { 
+                    console.log(err, result) ;
+                    $("#Katin_total_supply").text( web3.fromWei(result.toNumber()));
                 } );
             }
             
@@ -189,15 +190,6 @@
                 var amount = $("#katin_transfer_amount").val();
                 var addr = $("#katin_transfer_addr").val();
                 _katinTransfer(amount, addr);
-            }
-            
-            // Get katin balance of
-            function getKatinTotalSupply() {
-                var contract = getTakinToken();
-                 contract.totalSupply( function(err,ok) { 
-                    console.log(err,ok) ;
-                    $("#Katin_total_supply").text(ok.c[0]);
-                } );
             }
             
             // Get katin token contract
@@ -299,18 +291,18 @@
             // Get Proposal goal
             function getProposalGoal(addr, callback) {
                 var contract = getProposalContract(addr);
-                 contract.goal( function(err,ok) { 
-                    console.log(err,ok);
-                    callback(ok.c[0]);
+                 contract.goal( function(err,result) { 
+                    console.log(err,result);
+                    callback( web3.fromWei(result.toNumber()) );
                 } );
             }
             
             // Get Proposal progress
             function getProposalProgress(addr, callback) {
                 var contract = getProposalContract(addr);
-                 contract.progress( function(err,ok) { 
-                    console.log(err,ok);
-                    callback(ok.c[0]);
+                 contract.progress( function(err, result) { 
+                    console.log(err, result);
+                    callback( web3.fromWei(result.toNumber()) );
                 } );
             }
             
