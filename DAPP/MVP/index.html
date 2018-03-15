@@ -3,8 +3,8 @@
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script type="text/javascript">
-            var tokenAddr =         '0x95477082106ad76ec820a5e6bf8e35055003fd21';
-            var mainContractAddr =  '0x2ae53961e6cad27ed6ef71c4b1e6021786d7846b';
+            var tokenAddr =         '';
+            var mainContractAddr =  '';
         </script>
         <script type="text/javascript">
           window.addEventListener('load', function() {
@@ -38,9 +38,13 @@
                       break
                     case "3":
                         network = 'Ropsten';
+                        tokenAddr =         '0x95477082106ad76ec820a5e6bf8e35055003fd21';
+                        mainContractAddr =  '0x2ae53961e6cad27ed6ef71c4b1e6021786d7846b';
                       break
                     case "4":
                         network = 'Rinkeby';
+                        tokenAddr =         '0x1Fb1670E4Ba34238cF16e5491eE6B2C436b52B38';
+                        mainContractAddr =  '0x4512da2ff5481f2bb63b1df9e3d1eb537e9f9225';
                       break
                     case "42":
                         network = 'Kovan';
@@ -212,7 +216,7 @@
         <script type="text/javascript">
             // Get Main contract
             function getMainContract() {
-                var abi = [ { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "proposals", "outputs": [ { "name": "", "type": "address", "value": "0x" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_proposal", "type": "address" } ], "name": "acceptProposal", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "owner", "outputs": [ { "name": "", "type": "address", "value": "0xd881c376cd7f0b1ab8543148d49e36f38df4d006" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_index", "type": "uint256" }, { "name": "_documentUrl", "type": "string" }, { "name": "_documentHash", "type": "string" } ], "name": "updateProposalDeliveryFailed", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "proposalCount", "outputs": [ { "name": "", "type": "uint256", "value": "0" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "newOwner", "type": "address" } ], "name": "transferOwnership", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "_index", "type": "uint256" }, { "name": "_documentUrl", "type": "string" }, { "name": "_documentHash", "type": "string" } ], "name": "updateProposalDeliverySuccess", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "payable": true, "stateMutability": "payable", "type": "fallback" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "_sender", "type": "address" }, { "indexed": false, "name": "_value", "type": "uint256" } ], "name": "EtherReceive", "type": "event" } ];
+                var abi = [ { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "proposals", "outputs": [ { "name": "", "type": "address", "value": "0x" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_proposal", "type": "address" } ], "name": "acceptProposal", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "_mainContract", "type": "address" }, { "name": "_token", "type": "address" }, { "name": "_goal", "type": "uint256" }, { "name": "_description", "type": "string" }, { "name": "_periodInMinutes", "type": "uint256" }, { "name": "_documentUrl", "type": "string" }, { "name": "_documentHash", "type": "string" } ], "name": "newProposal", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "owner", "outputs": [ { "name": "", "type": "address", "value": "0x02219839ef94a1a857fe943f74d8297d7731a71f" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_index", "type": "uint256" }, { "name": "_documentUrl", "type": "string" }, { "name": "_documentHash", "type": "string" } ], "name": "updateProposalDeliveryFailed", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "proposalCount", "outputs": [ { "name": "", "type": "uint256", "value": "0" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "newOwner", "type": "address" } ], "name": "transferOwnership", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "_index", "type": "uint256" }, { "name": "_documentUrl", "type": "string" }, { "name": "_documentHash", "type": "string" } ], "name": "updateProposalDeliverySuccess", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "payable": true, "stateMutability": "payable", "type": "fallback" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "_sender", "type": "address" }, { "indexed": false, "name": "_value", "type": "uint256" } ], "name": "EtherReceive", "type": "event" } ];
                 
                 var CoursetroContract = web3.eth.contract(abi);
 
@@ -236,6 +240,42 @@
                  contract.proposalCount( function(err,ok) { 
                     console.log(err,ok.c) ;
                     callback(ok.c[0]);
+                } );
+            }
+
+            // Accept a propo9sal
+            function acceptProposal() {
+                var proposalAddr = $("#main_contract_accept_proposal_addr").val();
+                
+                var contract = getMainContract();
+                 contract.acceptProposal(proposalAddr, function(err,ok) { 
+                    console.log(err,ok) ;
+                } );
+            }
+            
+            // New proposal
+            function newProposal() {
+                
+                var _goal = $("#new_proposal_goal").val();
+                var _description = $("#new_proposal_description").val();
+                var _periodInMinutes = $("#new_proposal_period_in_minutes").val();
+                var _documentUrl = $("#new_proposal_document_url").val();
+                var _documentHash = $("#new_proposal_document_hash").val();
+                            
+                var contract = getMainContract();
+                
+                contract.newProposal(mainContractAddr, tokenAddr, _goal, _description, _periodInMinutes, _documentUrl, _documentHash, function(err,ok) { 
+                    console.log(err,ok) ;
+                } );
+            }
+            
+            // Transfer ownership
+            function transferOwner() {
+                var addr = $("#main_contract_transfer_ownership_addr").val();
+                
+                var contract = getMainContract();
+                 contract.transferOwnership(addr, function(err,ok) { 
+                    console.log(err,ok) ;
                 } );
             }
             
@@ -417,6 +457,7 @@
                 $(a).find(".proposal_document_hash").attr("id", "proposal_" + index + "_document_hash");
                 $(a).find(".proposal_vote_amount").attr("id", "proposal_" + index + "_vote_amount");
                 $(a).find(".proposal_vote_button").attr("onClick", "javascript:voteForProposal(" + index + ");");
+                $(a).find(".proposal_verify_button").attr("onClick", "javascript:verifyProposal(" + index + ");");
                 
                 $(a).find(".proposal_voter_index").attr("id", "proposal_" + index + "_voter_index");
                 $(a).find(".proposal_voter_index_button").attr("onClick", "javascript:displayProposalVoter(" + index + ");");
@@ -446,6 +487,16 @@
                 
                 getProposalAddrAtIndex(index, function (addr) {
                     _katinTransfer(amount, addr);
+                });
+            }
+            
+            // Verify Proposal
+            function verifyProposal(index) {
+                getProposalAddrAtIndex(index, function (addr) {
+                    var contract = getProposalContract(addr);
+                     contract.verify(function(err,ok) { 
+                        console.log(err,ok);
+                    } );
                 });
             }
             
@@ -584,6 +635,33 @@
                     <tr>
                         <td class="label">proposals:</td><td><span id="main_contract_proposal_count"></span></td>
                     </tr>
+                    <tr>
+                        <td><input type="text" id="main_contract_accept_proposal_addr" placeholder="proposal address"/></td>
+                        <td class="label"><input type="button" value="Accept" name="Accept" onClick="javascript:acceptProposal();" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="main_contract_transfer_ownership_addr" placeholder="Transfer ownership"/></td>
+                        <td class="label"><input type="button" value="Transfer" name="Transfer" onClick="javascript:transferOwner();" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!---- New Proposal ----> 
+        <div style="border: 1px solid;padding: 1em;border-radius: 1em;margin: 2em;float: left;">
+            <span style="text-align: center;display: block;">New Proposal</span>
+            <table class="info">
+                <tbody>
+                    <tr>
+                        <td class="label">
+                            <input type="text" name="new_proposal_goal" id="new_proposal_goal" placeholder="goal"/>
+                            <input type="text" name="new_proposal_description" id="new_proposal_description" placeholder="description"/>
+                            <input type="text" name="new_proposal_period_in_minutes" id="new_proposal_period_in_minutes" placeholder="Period in minutes"/>
+                            <input type="text" name="new_proposal_document_url" id="new_proposal_document_url" placeholder="Document url"/>
+                            <input type="text" name="new_proposal_document_hash" id="new_proposal_document_hash" placeholder="Document hash"/>
+                            <input type="button" value="Create" name="Create" onClick="javascript:newProposal();" />
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -622,6 +700,15 @@
                     <tr>
                         <td><input type="text" class="proposal_vote_amount" placeholder="amount"/></td>
                         <td class="label"><input class="proposal_vote_button" type="button" value="Vote" name="Vote" onClick="javascript:voteForProposal(xx);" /></td>
+                    </tr>
+                    <tr>
+                        <td class="label"><input class="proposal_verify_button" type="button" value="Verify proposal" name="Verify proposal" onClick="javascript:verifyProposal(xx);" /></td>
+                    </tr>
+                    <tr>
+                        <td><span style="color:#ffffff00; line-height: 25px;">empty space</span></td>
+                    </tr>
+                    <tr>
+                        <td><span>Vote history</span></td>
                     </tr>
                     <tr>
                         <td><input type="text" class="proposal_voter_index" placeholder="voter index"/></td>
