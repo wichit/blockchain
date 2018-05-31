@@ -111,7 +111,7 @@ contract StandardToken is BasicToken, ERC20 {
         balances[_from] = balances[_from].sub(_value);
         balances[_to] = balances[_to].add(_value);
         bytes memory empty;
-        Transfer(_from, _to, _value, empty);
+        emit Transfer(_from, _to, _value, empty);
         return true;
     }
   
@@ -137,7 +137,7 @@ contract StandardToken is BasicToken, ERC20 {
         require(_value == 0 || allowance[msg.sender][_spender] == 0);
 
         allowance[msg.sender][_spender] = _value;
-        Approval(msg.sender, _spender, _value);
+        emit Approval(msg.sender, _spender, _value);
         return true;
     }
 }
@@ -164,7 +164,7 @@ contract MintableToken is StandardToken, Ownable {
   function mint(address _to, uint256 _amount) public onlyOwner canMint returns (bool) {
     totalSupply = totalSupply.add(_amount);
     balances[_to] = balances[_to].add(_amount);
-    Mint(_to, _amount);
+    emit Mint(_to, _amount);
     return true;
   }
 
@@ -174,7 +174,7 @@ contract MintableToken is StandardToken, Ownable {
    */
   function finishMinting() public onlyOwner returns (bool) {
     mintingFinished = true;
-    MintFinished();
+    emit MintFinished();
     return true;
   }
 }
@@ -205,7 +205,7 @@ contract ERC223Token is KmMintableToken {
   uint8 public decimals;
   
 
-  function ERC223Token(string _name, string _symbol, uint8 _decimals) public {
+  constructor (string _name, string _symbol, uint8 _decimals) public {
       name = _name;
       symbol = _symbol;
       decimals = _decimals;
@@ -239,7 +239,7 @@ contract ERC223Token is KmMintableToken {
         balances[msg.sender] = balanceOf(msg.sender).sub(_value);
         balances[_to] = balanceOf(_to).add(_value);
         assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));
-        Transfer(msg.sender, _to, _value, _data);
+        emit Transfer(msg.sender, _to, _value, _data);
         return true;
     }
     else {
@@ -294,7 +294,7 @@ contract ERC223Token is KmMintableToken {
   function transferToAddress(address _to, uint256 _value, bytes _data) private returns (bool success) {
     balances[msg.sender] = balanceOf(msg.sender).sub(_value);
     balances[_to] = balanceOf(_to).add(_value);
-    Transfer(msg.sender, _to, _value, _data);
+    emit Transfer(msg.sender, _to, _value, _data);
     return true;
   }
   
@@ -304,7 +304,7 @@ contract ERC223Token is KmMintableToken {
     balances[_to] = balanceOf(_to).add(_value);
     ContractReceiver receiver = ContractReceiver(_to);
     receiver.tokenFallback(msg.sender, _value, _data);
-    Transfer(msg.sender, _to, _value, _data);
+    emit Transfer(msg.sender, _to, _value, _data);
     return true;
 }
 
