@@ -2,18 +2,8 @@ pragma solidity ^0.4.24;
 
 import "./safemath.sol";
 import "./ownable.sol";
+import "./contractReceiver.sol";
 
- /**
- * ERC223 token by Dexaran
- *
- * https://github.com/Dexaran/ERC223-token-standard
- */
- 
- contract ContractReceiver {
-     function tokenFallback(address _sender,
-                       uint256 _value,
-                       bytes _extraData) public returns (bool);
- }
 
 /**
  * @title ERC20Basic

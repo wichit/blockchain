@@ -2,14 +2,7 @@ pragma solidity ^0.4.24;
 import "./safemath.sol";
 import "./ownable.sol";
 import "./erc20interface.sol";
-
- 
-contract ContractReceiver {
-    function tokenFallback(address _sender,
-                       uint256 _value,
-                       bytes _extraData) public returns (bool);
- }
- 
+import "./contractReceiver.sol";
 
 contract Proposal is ContractReceiver {
     using SafeMath for uint256;
