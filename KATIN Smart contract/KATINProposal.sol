@@ -63,7 +63,7 @@ contract Proposal is ContractReceiver {
      * @param _documentUrl Document url
      * @param _documentHash Document hash
      */
-    function Proposal(
+    constructor(
         address _mainContract,
         address _token,
         uint256 _goal,
@@ -102,7 +102,7 @@ contract Proposal is ContractReceiver {
             status = Status.Success;
         }
 
-        TokenFallback(_sender, _value, _extraData);
+        emit TokenFallback(_sender, _value, _extraData);
     }
 
     function verify() public {
