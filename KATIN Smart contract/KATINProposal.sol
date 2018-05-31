@@ -1,73 +1,10 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.24;
 
-
-/**
- * Math operations with safety checks
- */
-library SafeMath {
-  function mul(uint256 a, uint256 b) pure internal returns (uint256) {
-    uint256 c = a * b;
-    assert(a == 0 || c / a == b);
-    return c;
-  }
-
-  function div(uint256 a, uint256 b) pure internal returns (uint256) {
-    // assert(b > 0); // Solidity automatically throws when dividing by 0
-    uint256 c = a / b;
-    // assert(a == b * c + a % b); // There is no case in which this doesn't hold
-    return c;
-  }
-
-  function sub(uint256 a, uint256 b) pure internal returns (uint256) {
-    assert(b <= a);
-    return a - b;
-  }
-
-  function add(uint256 a, uint256 b) pure internal returns (uint256) {
-    uint256 c = a + b;
-    assert(c >= a);
-    return c;
-  }
-
-  function max64(uint64 a, uint64 b) pure internal returns (uint64) {
-    return a >= b ? a : b;
-  }
-
-  function min64(uint64 a, uint64 b) pure internal returns (uint64) {
-    return a < b ? a : b;
-  }
-
-  function max256(uint256 a, uint256 b) pure internal returns (uint256) {
-    return a >= b ? a : b;
-  }
-
-  function min256(uint256 a, uint256 b) pure internal returns (uint256) {
-    return a < b ? a : b;
-  }
-}
-
- /**
- * ERC223 token by Dexaran
- *
- * https://github.com/Dexaran/ERC223-token-standard
- */
-
-
-contract ERC20 {
-    function totalSupply()  public constant returns (uint256 supply);
-    function balanceOf( address who )  public constant returns (uint256 value);
-    function allowance( address owner, address spender )  public constant returns (uint256 _allowance);
-
-    function transfer( address to, uint256 value)  public returns (bool ok);
-    function transferFrom( address from, address to, uint256 value)  public returns (bool ok);
-    function approve( address spender, uint256 value )  public returns (bool ok);
-
-    event Transfer( address indexed from, address indexed to, uint256 value);
-    event Approval( address indexed owner, address indexed spender, uint256 value);
-}
+import "./safemath.sol";
+import "./erc20interface.sol";
  
- contract ContractReceiver {
-     function tokenFallback(address _sender,
+contract ContractReceiver {
+    function tokenFallback(address _sender,
                        uint256 _value,
                        bytes _extraData) public returns (bool);
  }

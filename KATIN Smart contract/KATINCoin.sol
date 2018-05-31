@@ -1,4 +1,7 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.24;
+
+import "./safemath.sol";
+import "./ownable.sol";
 
  /**
  * ERC223 token by Dexaran
@@ -11,51 +14,6 @@ pragma solidity ^0.4.18;
                        uint256 _value,
                        bytes _extraData) public returns (bool);
  }
- 
-/**
- * Math operations with safety checks
- */
-library SafeMath {
-  function mul(uint256 a, uint256 b) pure internal returns (uint256) {
-    uint256 c = a * b;
-    assert(a == 0 || c / a == b);
-    return c;
-  }
-
-  function div(uint256 a, uint256 b) pure internal returns (uint256) {
-    // assert(b > 0); // Solidity automatically throws when dividing by 0
-    uint256 c = a / b;
-    // assert(a == b * c + a % b); // There is no case in which this doesn't hold
-    return c;
-  }
-
-  function sub(uint256 a, uint256 b) pure internal returns (uint256) {
-    assert(b <= a);
-    return a - b;
-  }
-
-  function add(uint256 a, uint256 b) pure internal returns (uint256) {
-    uint256 c = a + b;
-    assert(c >= a);
-    return c;
-  }
-
-  function max64(uint64 a, uint64 b) pure internal returns (uint64) {
-    return a >= b ? a : b;
-  }
-
-  function min64(uint64 a, uint64 b) pure internal returns (uint64) {
-    return a < b ? a : b;
-  }
-
-  function max256(uint256 a, uint256 b) pure internal returns (uint256) {
-    return a >= b ? a : b;
-  }
-
-  function min256(uint256 a, uint256 b) pure internal returns (uint256) {
-    return a < b ? a : b;
-  }
-}
 
 /**
  * @title ERC20Basic
@@ -192,46 +150,6 @@ contract StandardToken is BasicToken, ERC20 {
         Approval(msg.sender, _spender, _value);
         return true;
     }
-}
-
-
-/**
- * @title Ownable
- * @dev The Ownable contract has an owner address, and provides basic authorization control
- * functions, this simplifies the implementation of "user permissions".
- */
-contract Ownable {
-  address public owner;
-
-
-  /**
-   * @dev The Ownable constructor sets the original `owner` of the contract to the sender
-   * account.
-   */
-  function Ownable() public {
-    owner = msg.sender;
-  }
-
-
-  /**
-   * @dev Throws if called by any account other than the owner.
-   */
-  modifier onlyOwner() {
-      require(msg.sender == owner);
-    _;
-  }
-
-
-  /**
-   * @dev Allows the current owner to transfer control of the contract to a newOwner.
-   * @param newOwner The address to transfer ownership to.
-   */
-  function transferOwnership(address newOwner) public onlyOwner {
-    if (newOwner != address(0)) {
-      owner = newOwner;
-    }
-  }
-
 }
 
 contract MintableToken is StandardToken, Ownable {
