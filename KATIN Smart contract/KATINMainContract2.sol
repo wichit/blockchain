@@ -19,7 +19,7 @@ contract Main is Ownable {
      * Ether receivable
      */
 	function() payable public {
-        EtherReceive(msg.sender, msg.value);
+        emit EtherReceive(msg.sender, msg.value);
     }
 
     /**
