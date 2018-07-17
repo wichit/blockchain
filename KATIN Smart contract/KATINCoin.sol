@@ -4,6 +4,7 @@ import "./safemath.sol";
 import "./ownable.sol";
 import "./contractReceiver.sol";
 
+// TODO: Follow https://github.com/Dexaran/ERC223-token-standard/tree/master/token/ERC223
 
 /**
  * @title ERC20Basic
