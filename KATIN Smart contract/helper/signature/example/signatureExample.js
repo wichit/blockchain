@@ -1,4 +1,5 @@
-var msg = 'msg'
+// var msg = 'Change Mint Manager to 0x7ff0F1919424F0D2B6A109E3139ae0f1d836D468 Expired 1527916874'
+var msg = "Change Mint Manager to" + "0x7ff0F1919424F0D2B6A109E3139ae0f1d836D468" +"expired" + "123";
 var hexFunc = web3_1.utils.sha3
 // var hexFunc = web3.toHex
 
