@@ -37,7 +37,13 @@ contract OwnerGroup is Verifier {
     * @dev Throws if called by any account other than the owner.
     */
     // modifier onlyOwners(string _topic, string _blockBegin, string[] _signatures) {
-    modifier onlyOwners(string _topic, address _destAddr, uint _expiredTime, address[] _addrs, bytes[] sig) {
+    modifier onlyOwners(
+      string _topic, 
+      address _destAddr, 
+      uint _expiredTime, 
+      address[] _addrs, 
+      bytes[] sig
+    ) {
         // Require over half of owners for successful voting
 
         // exp: "change mintOnwer to 0xabcd... expired "
@@ -52,7 +58,14 @@ contract OwnerGroup is Verifier {
         _;
     }
 
-    function onlyOwners2(string _topic, string _destAddr, string _expiredTime, string stringLength, address _addrs, bytes sig) returns (string) {
+    function onlyOwners2(
+      string _topic, 
+      string _destAddr, 
+      string _expiredTime, 
+      string stringLength, 
+      address _addrs, 
+      bytes sig
+    ) returns (string) {
         // Require over half of owners for successful voting
 
         // exp: "change mintOnwer to 0xabcd... expired "
