@@ -124,7 +124,7 @@
             
             // Get Katin balance
             function getKatinBalance() {
-              var contract = getTakinToken();
+              let contract = getTakinToken();
               console.log(contract);
               
               contract.methods.balanceOf(userAccount).call().then( result => { 
@@ -136,7 +136,7 @@
             
             // Get Katin name
             function getKatinName() {
-                var contract = getTakinToken();
+                let contract = getTakinToken();
                 contract.methods.name().call().then( ok => { 
                     console.log(ok) ;
                     $("#Katin_name").text(ok);
@@ -145,7 +145,7 @@
             
             // Get Katin symbol
             function getKatinSymbol() {
-                var contract = getTakinToken();
+                let contract = getTakinToken();
                 contract.methods.symbol().call().then( ok => { 
                     console.log(ok) ;
                     $("#Katin_symbol").text(ok);
@@ -154,7 +154,7 @@
             
             // Get katin total supply
             function getKatinTotalSupply() {
-                var contract = getTakinToken();
+                let contract = getTakinToken();
                 contract.methods.totalSupply().call().then( result => { 
                     console.log('getKatinTotalSupply: ' + result) ;
                     $("#Katin_total_supply").text( web3.utils.fromWei(result));
@@ -163,9 +163,9 @@
             
             // Mint Km.
             function katinMintKm() {
-                var contract = getTakinToken();
-                var amount = $("#mint_km_amount").val();
-                var addr = $("#mint_km_addr").val();
+                let contract = getTakinToken();
+                let amount = $("#mint_km_amount").val();
+                let addr = $("#mint_km_addr").val();
                 
                 console.log(amount, addr);
 
@@ -180,29 +180,28 @@
             
             // Transfer katin
             function _katinTransfer(amount, addr) {
-                var contract = getTakinToken();
+                let contract = getTakinToken();
                 
                 console.log(amount, addr);
 
                 let options = {
                   from: userAccount
                 }
-                contract.methods.transfer(addr, amount).send(options).then( ok => { 
+                contract.methods.transfer(addr, amountWei).send(options).then( ok => { 
                     console.log(ok);
-                    // $("#Katin_total_supply").text(ok.c[0]);
                 } );
             }
             
             // Transfer katin
             function katinTransfer() {
-                var amount = $("#katin_transfer_amount").val();
-                var addr = $("#katin_transfer_addr").val();
+                let amount = $("#katin_transfer_amount").val();
+                let addr = $("#katin_transfer_addr").val();
                 _katinTransfer(amount, addr);
             }
             
             // Get katin token contract
             function getTakinToken() {
-                var abi = [ { "constant": true, "inputs": [], "name": "mintingFinished", "outputs": [ { "name": "", "type": "bool", "value": false } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "name", "outputs": [ { "name": "", "type": "string", "value": "KTT2" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_spender", "type": "address" }, { "name": "_value", "type": "uint256" } ], "name": "approve", "outputs": [ { "name": "success", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "totalSupply", "outputs": [ { "name": "", "type": "uint256", "value": "6.02120000000000000001e+23" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_from", "type": "address" }, { "name": "_to", "type": "address" }, { "name": "_value", "type": "uint256" } ], "name": "transferFrom", "outputs": [ { "name": "success", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "decimals", "outputs": [ { "name": "", "type": "uint8", "value": "18" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_to", "type": "address" }, { "name": "_km", "type": "uint256" } ], "name": "mintKm", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "_to", "type": "address" }, { "name": "_amount", "type": "uint256" } ], "name": "mint", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [ { "name": "who", "type": "address" } ], "name": "balanceOf", "outputs": [ { "name": "balance", "type": "uint256", "value": "0" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [], "name": "finishMinting", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "owner", "outputs": [ { "name": "", "type": "address", "value": "0x02219839ef94a1a857fe943f74d8297d7731a71f" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "symbol", "outputs": [ { "name": "", "type": "string", "value": "KTT2" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_to", "type": "address" }, { "name": "_value", "type": "uint256" } ], "name": "transfer", "outputs": [ { "name": "success", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" }, { "name": "", "type": "address" } ], "name": "allowance", "outputs": [ { "name": "", "type": "uint256", "value": "0" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "newOwner", "type": "address" } ], "name": "transferOwnership", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "name": "_name", "type": "string", "index": 0, "typeShort": "string", "bits": "", "displayName": "&thinsp;<span class=\"punctuation\">_</span>&thinsp;name", "template": "elements_input_string", "value": "KTT2" }, { "name": "_symbol", "type": "string", "index": 1, "typeShort": "string", "bits": "", "displayName": "&thinsp;<span class=\"punctuation\">_</span>&thinsp;symbol", "template": "elements_input_string", "value": "KTT2" }, { "name": "_decimals", "type": "uint8", "index": 2, "typeShort": "uint", "bits": "8", "displayName": "&thinsp;<span class=\"punctuation\">_</span>&thinsp;decimals", "template": "elements_input_uint", "value": "18" } ], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [ { "indexed": true, "name": "to", "type": "address" }, { "indexed": false, "name": "value", "type": "uint256" } ], "name": "Mint", "type": "event" }, { "anonymous": false, "inputs": [], "name": "MintFinished", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": true, "name": "_owner", "type": "address" }, { "indexed": true, "name": "_spender", "type": "address" }, { "indexed": false, "name": "_value", "type": "uint256" } ], "name": "Approval", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": true, "name": "_from", "type": "address" }, { "indexed": true, "name": "_to", "type": "address" }, { "indexed": true, "name": "_value", "type": "uint256" }, { "indexed": false, "name": "_data", "type": "bytes" } ], "name": "Transfer", "type": "event" } ];
+                let abi = [ { "constant": true, "inputs": [], "name": "mintingFinished", "outputs": [ { "name": "", "type": "bool", "value": false } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "name", "outputs": [ { "name": "", "type": "string", "value": "KTT2" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_spender", "type": "address" }, { "name": "_value", "type": "uint256" } ], "name": "approve", "outputs": [ { "name": "success", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "totalSupply", "outputs": [ { "name": "", "type": "uint256", "value": "6.02120000000000000001e+23" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_from", "type": "address" }, { "name": "_to", "type": "address" }, { "name": "_value", "type": "uint256" } ], "name": "transferFrom", "outputs": [ { "name": "success", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "decimals", "outputs": [ { "name": "", "type": "uint8", "value": "18" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_to", "type": "address" }, { "name": "_km", "type": "uint256" } ], "name": "mintKm", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "_to", "type": "address" }, { "name": "_amount", "type": "uint256" } ], "name": "mint", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [ { "name": "who", "type": "address" } ], "name": "balanceOf", "outputs": [ { "name": "balance", "type": "uint256", "value": "0" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [], "name": "finishMinting", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "owner", "outputs": [ { "name": "", "type": "address", "value": "0x02219839ef94a1a857fe943f74d8297d7731a71f" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "symbol", "outputs": [ { "name": "", "type": "string", "value": "KTT2" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_to", "type": "address" }, { "name": "_value", "type": "uint256" } ], "name": "transfer", "outputs": [ { "name": "success", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" }, { "name": "", "type": "address" } ], "name": "allowance", "outputs": [ { "name": "", "type": "uint256", "value": "0" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "newOwner", "type": "address" } ], "name": "transferOwnership", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "name": "_name", "type": "string", "index": 0, "typeShort": "string", "bits": "", "displayName": "&thinsp;<span class=\"punctuation\">_</span>&thinsp;name", "template": "elements_input_string", "value": "KTT2" }, { "name": "_symbol", "type": "string", "index": 1, "typeShort": "string", "bits": "", "displayName": "&thinsp;<span class=\"punctuation\">_</span>&thinsp;symbol", "template": "elements_input_string", "value": "KTT2" }, { "name": "_decimals", "type": "uint8", "index": 2, "typeShort": "uint", "bits": "8", "displayName": "&thinsp;<span class=\"punctuation\">_</span>&thinsp;decimals", "template": "elements_input_uint", "value": "18" } ], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [ { "indexed": true, "name": "to", "type": "address" }, { "indexed": false, "name": "value", "type": "uint256" } ], "name": "Mint", "type": "event" }, { "anonymous": false, "inputs": [], "name": "MintFinished", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": true, "name": "_owner", "type": "address" }, { "indexed": true, "name": "_spender", "type": "address" }, { "indexed": false, "name": "_value", "type": "uint256" } ], "name": "Approval", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": true, "name": "_from", "type": "address" }, { "indexed": true, "name": "_to", "type": "address" }, { "indexed": true, "name": "_value", "type": "uint256" }, { "indexed": false, "name": "_data", "type": "bytes" } ], "name": "Transfer", "type": "event" } ];
 
                 let contract = new web3.eth.Contract(abi, tokenAddr)
                 
@@ -214,7 +213,7 @@
         <script type="text/javascript">
             // Get Main contract
             function getMainContract() {
-                var abi = [ { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "proposals", "outputs": [ { "name": "", "type": "address", "value": "0x" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_proposal", "type": "address" } ], "name": "acceptProposal", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "_mainContract", "type": "address" }, { "name": "_token", "type": "address" }, { "name": "_goal", "type": "uint256" }, { "name": "_description", "type": "string" }, { "name": "_periodInMinutes", "type": "uint256" }, { "name": "_documentUrl", "type": "string" }, { "name": "_documentHash", "type": "string" } ], "name": "newProposal", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "owner", "outputs": [ { "name": "", "type": "address", "value": "0x02219839ef94a1a857fe943f74d8297d7731a71f" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_index", "type": "uint256" }, { "name": "_documentUrl", "type": "string" }, { "name": "_documentHash", "type": "string" } ], "name": "updateProposalDeliveryFailed", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "proposalCount", "outputs": [ { "name": "", "type": "uint256", "value": "0" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "newOwner", "type": "address" } ], "name": "transferOwnership", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "_index", "type": "uint256" }, { "name": "_documentUrl", "type": "string" }, { "name": "_documentHash", "type": "string" } ], "name": "updateProposalDeliverySuccess", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "payable": true, "stateMutability": "payable", "type": "fallback" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "_sender", "type": "address" }, { "indexed": false, "name": "_value", "type": "uint256" } ], "name": "EtherReceive", "type": "event" } ];
+                let abi = [ { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "proposals", "outputs": [ { "name": "", "type": "address", "value": "0x" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_proposal", "type": "address" } ], "name": "acceptProposal", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "_mainContract", "type": "address" }, { "name": "_token", "type": "address" }, { "name": "_goal", "type": "uint256" }, { "name": "_description", "type": "string" }, { "name": "_periodInMinutes", "type": "uint256" }, { "name": "_documentUrl", "type": "string" }, { "name": "_documentHash", "type": "string" } ], "name": "newProposal", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "owner", "outputs": [ { "name": "", "type": "address", "value": "0x02219839ef94a1a857fe943f74d8297d7731a71f" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_index", "type": "uint256" }, { "name": "_documentUrl", "type": "string" }, { "name": "_documentHash", "type": "string" } ], "name": "updateProposalDeliveryFailed", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "proposalCount", "outputs": [ { "name": "", "type": "uint256", "value": "0" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "newOwner", "type": "address" } ], "name": "transferOwnership", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "_index", "type": "uint256" }, { "name": "_documentUrl", "type": "string" }, { "name": "_documentHash", "type": "string" } ], "name": "updateProposalDeliverySuccess", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "payable": true, "stateMutability": "payable", "type": "fallback" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "_sender", "type": "address" }, { "indexed": false, "name": "_value", "type": "uint256" } ], "name": "EtherReceive", "type": "event" } ];
                 
                 let contract = new web3.eth.Contract(abi, mainContractAddr)
                 
@@ -223,7 +222,7 @@
             
             // Get Main contract name
             function getMainContractOwner() {
-                var contract = getMainContract();
+                let contract = getMainContract();
                 contract.methods.owner().call().then( ok => { 
                     console.log(ok) ;
                     $("#main_contract_owner").text(ok);
@@ -232,7 +231,7 @@
             
             // Get number of proposals
             function getMainContractProposalCount( callback ) {
-                var contract = getMainContract();
+                let contract = getMainContract();
                 contract.methods.proposalCount().call().then( result => { 
                     console.log('getMainContractProposalCount: ' + result) ;
                     callback(result);
@@ -241,9 +240,9 @@
 
             // Accept a propo9sal
             function acceptProposal() {
-                var proposalAddr = $("#main_contract_accept_proposal_addr").val();
+                let proposalAddr = $("#main_contract_accept_proposal_addr").val();
                 
-                var contract = getMainContract();
+                let contract = getMainContract();
 
                 let options = {
                   from: userAccount
@@ -256,13 +255,13 @@
             // New proposal
             function newProposal() {
                 
-                var _goal = $("#new_proposal_goal").val();
-                var _description = $("#new_proposal_description").val();
-                var _periodInMinutes = $("#new_proposal_period_in_minutes").val();
-                var _documentUrl = $("#new_proposal_document_url").val();
-                var _documentHash = $("#new_proposal_document_hash").val();
+                let _goal = $("#new_proposal_goal").val();
+                let _description = $("#new_proposal_description").val();
+                let _periodInMinutes = $("#new_proposal_period_in_minutes").val();
+                let _documentUrl = $("#new_proposal_document_url").val();
+                let _documentHash = $("#new_proposal_document_hash").val();
                             
-                var contract = getMainContract();
+                let contract = getMainContract();
                 
                 let options = {
                   from: userAccount
@@ -282,9 +281,9 @@
             
             // Transfer ownership
             function transferOwner() {
-                var addr = $("#main_contract_transfer_ownership_addr").val();
+                let addr = $("#main_contract_transfer_ownership_addr").val();
                 
-                var contract = getMainContract();
+                let contract = getMainContract();
 
                 let options = {
                   from: userAccount
