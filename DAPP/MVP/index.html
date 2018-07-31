@@ -128,7 +128,7 @@
               console.log(contract);
               
               contract.methods.balanceOf(userAccount).call().then( result => { 
-                  console.log(result) ;
+                  console.log('getKatinBalance: ' + result) ;
                   
                   $("#Katin_balance").text( web3.utils.fromWei(result ));
               } );
@@ -168,10 +168,12 @@
                 var addr = $("#mint_km_addr").val();
                 
                 console.log(amount, addr);
-                
 
-                contract.mintKm( addr, amount, function(err,ok) { 
-                    console.log(err,ok) ;
+                let options = {
+                  from: userAccount
+                }
+                contract.methods.mintKm(addr, amount).send(options).then( ok => { 
+                    console.log(ok) ;
                     // $("#Katin_total_supply").text(ok.c[0]);
                 } );
             }
@@ -181,8 +183,12 @@
                 var contract = getTakinToken();
                 
                 console.log(amount, addr);
-                contract.transfer( addr, amount, function(err,ok) { 
-                    console.log(err,ok) ;
+
+                let options = {
+                  from: userAccount
+                }
+                contract.methods.transfer(addr, amount).send(options).then( ok => { 
+                    console.log(ok);
                     // $("#Katin_total_supply").text(ok.c[0]);
                 } );
             }
@@ -238,8 +244,12 @@
                 var proposalAddr = $("#main_contract_accept_proposal_addr").val();
                 
                 var contract = getMainContract();
-                 contract.acceptProposal(proposalAddr, function(err,ok) { 
-                    console.log(err,ok) ;
+
+                let options = {
+                  from: userAccount
+                }
+                contract.methods.acceptProposal(proposalAddr).send(options).then( ok => { 
+                    console.log(ok);
                 } );
             }
             
@@ -254,8 +264,19 @@
                             
                 var contract = getMainContract();
                 
-                contract.newProposal(mainContractAddr, tokenAddr, _goal, _description, _periodInMinutes, _documentUrl, _documentHash, function(err,ok) { 
-                    console.log(err,ok) ;
+                let options = {
+                  from: userAccount
+                }
+                contract.methods.newProposal(
+                  mainContractAddr, 
+                  tokenAddr, 
+                  _goal, 
+                  _description, 
+                  _periodInMinutes, 
+                  _documentUrl, 
+                  _documentHash
+                ).send(options).then( ok => { 
+                    console.log(ok);
                 } );
             }
             
@@ -264,8 +285,12 @@
                 var addr = $("#main_contract_transfer_ownership_addr").val();
                 
                 var contract = getMainContract();
-                 contract.transferOwnership(addr, function(err,ok) { 
-                    console.log(err,ok) ;
+
+                let options = {
+                  from: userAccount
+                }
+                contract.methods.transferOwnership(addr).send(options).then( ok => { 
+                    console.log(ok);
                 } );
             }
             
