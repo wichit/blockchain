@@ -7,6 +7,7 @@
             var tokenAddr =         '';
             var mainContractAddr =  '';
             var network = "";
+            var userAccount = '';
         </script>
         <script type="text/javascript">
           window.addEventListener('load', function() {
@@ -58,11 +59,11 @@
                   $("#eth_network").text(network);
                   
                   web3.eth.getAccounts().then(accounts => {
-                    let account = accounts[0];
-                    $("#eth_address").text(account);
+                    userAccount = accounts[0];
+                    $("#eth_address").text(userAccount);
+
+                    reloadInfo();
                   })
-                  
-                  reloadInfo();
                 })
             }
             
@@ -116,29 +117,21 @@
             
             // Get account balance
             function getBalance() {
-              web3.eth.getAccounts().then(accounts => {
-                let account = accounts[0];
-
-                web3.eth.getBalance(account).then(result => {
-                    $("#balance").html(web3.utils.fromWei(result));
-                }); // getbalance account
-              })
+              web3.eth.getBalance(userAccount).then(result => {
+                  $("#balance").html(web3.utils.fromWei(result));
+              }); // getbalance account
             }
             
             // Get Katin balance
             function getKatinBalance() {
-              web3.eth.getAccounts().then(accounts => {
-                let account = accounts[0];
-
-                var contract = getTakinToken();
-                console.log(contract);
-                
-                contract.methods.balanceOf(account).call().then( result => { 
-                    console.log(result) ;
-                    
-                    $("#Katin_balance").text( web3.utils.fromWei(result ));
-                } );
-              });
+              var contract = getTakinToken();
+              console.log(contract);
+              
+              contract.methods.balanceOf(userAccount).call().then( result => { 
+                  console.log(result) ;
+                  
+                  $("#Katin_balance").text( web3.utils.fromWei(result ));
+              } );
             }
             
             // Get Katin name
@@ -176,8 +169,8 @@
                 
                 console.log(amount, addr);
                 
-                
-                 contract.mintKm( addr, amount, function(err,ok) { 
+
+                contract.mintKm( addr, amount, function(err,ok) { 
                     console.log(err,ok) ;
                     // $("#Katin_total_supply").text(ok.c[0]);
                 } );
