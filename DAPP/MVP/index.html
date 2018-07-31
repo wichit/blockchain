@@ -304,7 +304,7 @@
             
             // Get Proposal description
             function getProposalDescription(addr, callback) {
-                var contract = getProposalContract(addr);
+                let contract = getProposalContract(addr);
                 contract.methods.description().call().then( ok => { 
                     console.log(ok);
                     callback(ok);
@@ -313,7 +313,7 @@
             
             // Get Proposal goal
             function getProposalGoal(addr, callback) {
-                var contract = getProposalContract(addr);
+                let contract = getProposalContract(addr);
                 contract.methods.goal().call().then( result => { 
                     console.log(result);
                     callback( web3.utils.fromWei(result) );
@@ -322,7 +322,7 @@
             
             // Get Proposal progress
             function getProposalProgress(addr, callback) {
-                var contract = getProposalContract(addr);
+                let contract = getProposalContract(addr);
                 contract.methods.progress().call().then( result => { 
                     console.log(result);
                     callback( web3.utils.fromWei(result) );
@@ -331,7 +331,7 @@
             
             // Get Proposal document url
             function getProposalDocumentUrl(addr, callback) {
-                var contract = getProposalContract(addr);
+                let contract = getProposalContract(addr);
                 contract.methods.documentUrl().call().then( ok => { 
                     console.log(ok);
                     callback(ok);
@@ -340,7 +340,7 @@
             
             // Get Proposal document hash
             function getProposalDocumentHash(addr, callback) {
-                var contract = getProposalContract(addr);
+                let contract = getProposalContract(addr);
                 contract.methods.documentHash().call().then( ok => { 
                     console.log(ok);
                     callback(ok);
@@ -349,7 +349,7 @@
             
             // Get Proposal status
             function getProposalStatus(addr, callback) {
-                var contract = getProposalContract(addr);
+                let contract = getProposalContract(addr);
                 contract.methods.status().call().then( ok => { 
                     console.log(ok);
                     if (0 == ok) {
@@ -367,18 +367,18 @@
             
             // Get Proposal vote
             function getProposalVoter(addr, index, callback) {
-                var contract = getProposalContract(addr);
+                let contract = getProposalContract(addr);
                 contract.methods.votes(index).call().then( ok => { 
                     console.log('getProposalVoter: ' + ok);
-                    var voterAddr = ok[0];
-                    var amount = ok[1];
+                    let voterAddr = ok[0];
+                    let amount = ok[1];
                     callback(voterAddr, amount);
                 } );
             }
             
             // Display Proposal voter
             function displayProposalVoter(proposalIndex) {
-                var voterIndex = $("#proposal_" + proposalIndex + "_voter_index").val();
+                let voterIndex = $("#proposal_" + proposalIndex + "_voter_index").val();
 
                 getProposalAddrAtIndex(proposalIndex, function (addr) {
                     getProposalVoter(addr, voterIndex, function (voterAddr, amount) {
@@ -392,7 +392,7 @@
             
             // Get Proposal voter from address
             function getProposalVoterAddr(addr, voterAddr, callback) {
-                var contract = getProposalContract(addr);
+                let contract = getProposalContract(addr);
                 contract.methods.voteBy(voterAddr).call().then( ok => { 
                     console.log('getProposalVoterAddr: ' +ok);
                     callback(ok);
@@ -401,7 +401,7 @@
             
             // Display Proposal voter from address
             function displayProposalVoterAddr(proposalIndex) {
-                var voterAddr = $("#proposal_" + proposalIndex + "_voter_addr").val();
+                let voterAddr = $("#proposal_" + proposalIndex + "_voter_addr").val();
 
                 getProposalAddrAtIndex(proposalIndex, function (addr) {
                     getProposalVoterAddr(addr, voterAddr, function (amount) {
@@ -414,7 +414,7 @@
             
             // Get proposal addr
             function getProposalAddrAtIndex(index, callback) {
-                var contract = getMainContract();
+                let contract = getMainContract();
                 contract.methods.proposals(index).call().then( ok => { 
                     console.log(ok);
                     callback(ok);
@@ -461,7 +461,7 @@
             }
             
             function cloneProposal(index) {
-                var a = $("#proposal_copy").clone();
+                let a = $("#proposal_copy").clone();
                 $(a).find(".proposal_name").text("Proposal " + index);
                 $(a).find(".proposal_addr").attr("id", "proposal_" + index + "_addr");
                 $(a).find(".proposal_description").attr("id", "proposal_" + index + "_description");
@@ -498,7 +498,7 @@
             
             // Vote proposal
             function voteForProposal(index) {
-                var amount = $("#proposal_" + index + "_vote_amount").val();
+                let amount = $("#proposal_" + index + "_vote_amount").val();
                 
                 getProposalAddrAtIndex(index, function (addr) {
                     _katinTransfer(amount, addr);
@@ -508,7 +508,7 @@
             // Verify Proposal
             function verifyProposal(index) {
                 getProposalAddrAtIndex(index, function (addr) {
-                    var contract = getProposalContract(addr);
+                    let contract = getProposalContract(addr);
                     contract.methods.verify().call().then( ok => { 
                         console.log(ok);
                     } );
@@ -517,7 +517,7 @@
             
             // Get Proposal contract
             function getProposalContract(addr) {
-                var abi = [{"constant":true,"inputs":[],"name":"votingDeadline","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"deliveryStatus","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"status","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"documentUrl","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"goal","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"progress","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"votes","outputs":[{"name":"voter","type":"address"},{"name":"amount","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"description","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"periodInMinutes","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"documentHash","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_voter","type":"address"}],"name":"voteBy","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_documentUrl","type":"string"},{"name":"_documentHash","type":"string"},{"name":"_status","type":"uint8"}],"name":"updateDelivery","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"deliveryDocUrl","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_sender","type":"address"},{"name":"_value","type":"uint256"},{"name":"_extraData","type":"bytes"}],"name":"tokenFallback","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"deliveryDocHash","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"voteCount","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"mainContract","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"token","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"verify","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"_mainContract","type":"address"},{"name":"_token","type":"address"},{"name":"_goal","type":"uint256"},{"name":"_description","type":"string"},{"name":"_periodInMinutes","type":"uint256"},{"name":"_documentUrl","type":"string"},{"name":"_documentHash","type":"string"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_sender","type":"address"},{"indexed":false,"name":"_value","type":"uint256"},{"indexed":false,"name":"_extraData","type":"bytes"}],"name":"TokenFallback","type":"event"}];
+                let abi = [{"constant":true,"inputs":[],"name":"votingDeadline","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"deliveryStatus","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"status","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"documentUrl","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"goal","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"progress","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"votes","outputs":[{"name":"voter","type":"address"},{"name":"amount","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"description","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"periodInMinutes","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"documentHash","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_voter","type":"address"}],"name":"voteBy","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_documentUrl","type":"string"},{"name":"_documentHash","type":"string"},{"name":"_status","type":"uint8"}],"name":"updateDelivery","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"deliveryDocUrl","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_sender","type":"address"},{"name":"_value","type":"uint256"},{"name":"_extraData","type":"bytes"}],"name":"tokenFallback","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"deliveryDocHash","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"voteCount","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"mainContract","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"token","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"verify","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"_mainContract","type":"address"},{"name":"_token","type":"address"},{"name":"_goal","type":"uint256"},{"name":"_description","type":"string"},{"name":"_periodInMinutes","type":"uint256"},{"name":"_documentUrl","type":"string"},{"name":"_documentHash","type":"string"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_sender","type":"address"},{"indexed":false,"name":"_value","type":"uint256"},{"indexed":false,"name":"_extraData","type":"bytes"}],"name":"TokenFallback","type":"event"}];
                 
                 let contract = new web3.eth.Contract(abi, addr)
                 
