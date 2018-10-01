@@ -8,8 +8,7 @@ import "./KATINProposal.sol";
 contract Main is Ownable {
     using SafeMath for uint256;
 
-    event EtherReceive(address _sender,
-                        uint256 _value);
+    event EtherReceive(address _sender, uint256 _value);
 
     
     // list of proposals, including ongoing, success and failed proposals
@@ -18,7 +17,8 @@ contract Main is Ownable {
     /**
      * Ether receivable
      */
-	function() payable public {
+
+    function() public payable {
         emit EtherReceive(msg.sender, msg.value);
     }
 
