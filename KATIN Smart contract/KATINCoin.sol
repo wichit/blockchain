@@ -239,7 +239,8 @@ contract ERC223Token is KmMintableToken {
         if(isContract(_to)) {
             balances[msg.sender] = balanceOf(msg.sender).sub(_value);
             balances[_to] = balanceOf(_to).add(_value);
-            assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));
+            //no need to parse value , if you need to send value, use address.transfer() instead.
+            assert(_to.call.(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));
             emit Transfer(msg.sender, _to, _value, _data);
             return true;
         }
