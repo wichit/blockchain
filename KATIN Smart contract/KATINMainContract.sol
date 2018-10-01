@@ -32,7 +32,7 @@ contract Main is Ownable {
     */
     function acceptProposal(address _proposal) public onlyOwner returns (bool) {
         // TODO: Check if correct proposal
-        proposals.push( _proposal );
+        proposals.push(_proposal);
         return true;
     }
 
@@ -65,7 +65,7 @@ contract Main is Ownable {
     */
     function updateProposalDeliveryFailed(uint256 _index, string _documentUrl, string _documentHash) public onlyOwner returns (bool) {
         Proposal proposal = Proposal(proposals[_index]);
-        require(Proposal.Status.Success == proposal.status());
+        require(Proposal.Status.Success == proposal.status(), "Proposal status unsuccess");
 
         return proposal.updateDelivery(_documentUrl, _documentHash, Proposal.DeliveryStatus.Failed);
     }
@@ -85,7 +85,15 @@ contract Main is Ownable {
     )
         public onlyOwner returns (bool)
     {
-        address newProposalAddr = address(new Proposal(_mainContract, _token, _goal, _description, _periodInMinutes, _documentUrl, _documentHash));
+        address newProposalAddr = address(
+            new Proposal(
+                _mainContract, 
+                _token, _goal, 
+                _description, 
+                _periodInMinutes, 
+                _documentUrl, 
+                _documentHash)
+            );
         acceptProposal(newProposalAddr);
         return true;
     }
