@@ -8,9 +8,7 @@ import "./contractReceiver.sol";
 contract Proposal is ContractReceiver {
     using SafeMath for uint256;
 
-    event TokenFallback(address _sender,
-                       uint256 _value,
-                       bytes _extraData);
+    event TokenFallback(address _sender, uint256 _value, bytes _extraData);
 
     address public mainContract;
     /**
@@ -85,9 +83,7 @@ contract Proposal is ContractReceiver {
     }
 
     // Need action: check to only accept KATIN Token
-    function tokenFallback(address _sender,
-                       uint256 _value,
-                       bytes _extraData) public returns (bool) {
+    function tokenFallback(address _sender, uint256 _value, bytes _extraData) public returns (bool) {
         require(status == Status.Voting);
         require(token == msg.sender);
         require(now <= votingDeadline);

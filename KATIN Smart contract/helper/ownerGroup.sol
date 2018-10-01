@@ -19,9 +19,10 @@ contract OwnerGroup is Verifier {
     * list of owner addresses.
     */
     constructor(address[] _owners, uint _votePeriod) public {
-      require(_owners.length >= 1);
-      owners = _owners;
-      votePeriod = _votePeriod;
+        require(_owners.length >= 1);
+
+        owners = _owners;
+        votePeriod = _votePeriod;
     }
 
 
@@ -38,11 +39,11 @@ contract OwnerGroup is Verifier {
     */
     // modifier onlyOwners(string _topic, string _blockBegin, string[] _signatures) {
     modifier onlyOwners(
-      string _topic, 
-      address _destAddr, 
-      uint _expiredTime, 
-      address[] _addrs, 
-      bytes[] sig
+        string _topic, 
+        address _destAddr, 
+        uint _expiredTime, 
+        address[] _addrs, 
+        bytes[] sig
     ) {
         // Require over half of owners for successful voting
 
@@ -58,13 +59,14 @@ contract OwnerGroup is Verifier {
         _;
     }
 
-    function onlyOwners2(
-      string _topic, 
-      string _destAddr, 
-      string _expiredTime, 
-      string stringLength, 
-      address _addrs, 
-      bytes sig
+    // which visibility should be on this function ?
+    function onlyOwners2 view (
+        string _topic, 
+        string _destAddr, 
+        string _expiredTime, 
+        string stringLength, 
+        address _addrs, 
+        bytes sig
     ) returns (string) {
         // Require over half of owners for successful voting
 

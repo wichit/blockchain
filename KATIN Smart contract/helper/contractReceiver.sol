@@ -6,8 +6,9 @@ pragma solidity ^0.4.24;
  * https://github.com/Dexaran/ERC223-token-standard
  */
  
- contract ContractReceiver {
-     function tokenFallback(address _sender,
-                       uint256 _value,
-                       bytes _extraData) public returns (bool);
- }
+contract ContractReceiver {
+    function tokenFallback(
+        address _sender,
+        uint256 _value,
+        bytes _extraData) public returns (bool);
+}

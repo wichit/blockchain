@@ -15,7 +15,7 @@ contract ERC20Basic {
 //   uint256 public totalSupply;
 //   function balanceOf(address who) constant public returns (uint256);
 //   function transfer(address to, uint256 value) public returns (bool success);
-  event Transfer(address indexed _from, address indexed _to, uint256 indexed _value, bytes _data);
+    event Transfer(address indexed _from, address indexed _to, uint256 indexed _value, bytes _data);
 
 }
 
@@ -25,43 +25,43 @@ contract ERC20Basic {
  * @dev Basic version of StandardToken, with no allowances.
  */
 contract BasicToken is ERC20Basic {
-//   using SafeMath for uint256;
+    //using SafeMath for uint256;
 
-  mapping(address => uint256) balances;
+    mapping(address => uint256) balances;
 
-  /**
-   * @dev Fix for the ERC20 short address attack.
-   */
-  modifier onlyPayloadSize(uint256 size) {
-     require(msg.data.length >= size + 4);
-     _;
-  }
+    /**
+    * @dev Fix for the ERC20 short address attack.
+    */
+    modifier onlyPayloadSize(uint256 size) {
+        require(msg.data.length >= size + 4);
+        _;
+    }
 
-  // validates an address - currently only checks that it isn't null
+    // validates an address - currently only checks that it isn't null
     modifier validAddress(address _address) {
         require(_address != 0x0);
         _;
     }
 
-  /**
-  * @dev transfer token for a specified address
-  * @param _to The address to transfer to.
-  * @param _value The amount to be transferred.
-  */
-//   function transfer(address _to, uint256 _value) public onlyPayloadSize(2 * 32) returns (bool success) {
-//     balances[msg.sender] = balances[msg.sender].sub(_value);
-//     balances[_to] = balances[_to].add(_value);
-//     Transfer(msg.sender, _to, _value);
-//   }
+    /**
+    * @dev transfer token for a specified address
+    * @param _to The address to transfer to.
+    * @param _value The amount to be transferred.
+    */
+    //   function transfer(address _to, uint256 _value) public onlyPayloadSize(2 * 32) returns (bool success) {
+    //     balances[msg.sender] = balances[msg.sender].sub(_value);
+    //     balances[_to] = balances[_to].add(_value);
+    //     Transfer(msg.sender, _to, _value);
+    //   }
 
-  /**
-  * @dev Gets the balance of the specified address.
-  * @param _owner The address to query the the balance of.
-  * @return An uint representing the amount owned by the passed address.
-  */
-//   function balanceOf(address who) constant public returns (uint256 balance) {
-//     return balances[who];
-//   }
+    /**
+    * @dev Gets the balance of the specified address.
+    * @param _owner The address to query the the balance of.
+    * @return An uint representing the amount owned by the passed address.
+    */
+    //   function balanceOf(address who) constant public returns (uint256 balance) {
+    //     return balances[who];
+    //   }
 
 }
 
@@ -72,10 +72,10 @@ contract BasicToken is ERC20Basic {
  */
 contract ERC20 is ERC20Basic {
 //   function allowance(address owner, address spender) public constant returns (uint256);
-  function transferFrom(address from, address to, uint256 value) public returns (bool success);
-  function approve(address spender, uint256 value) public returns (bool success);
+    function transferFrom(address from, address to, uint256 value) public returns (bool success);
+    function approve(address spender, uint256 value) public returns (bool success);
   
-  event Approval(address indexed _owner, address indexed _spender, uint256 _value);
+    event Approval(address indexed _owner, address indexed _spender, uint256 _value);
 }
 
 
@@ -91,7 +91,7 @@ contract StandardToken is BasicToken, ERC20 {
 
     mapping (address => mapping (address => uint256)) public allowance;
 
-  /**
+    /**
         @dev an account/contract attempts to get the coins
         throws on any error rather then return a false flag to minimize user errors
 
@@ -116,7 +116,7 @@ contract StandardToken is BasicToken, ERC20 {
         return true;
     }
   
-  /**
+    /**
         @dev allow another account/contract to spend some tokens on your behalf
         throws on any error rather then return a false flag to minimize user errors
 
@@ -135,7 +135,7 @@ contract StandardToken is BasicToken, ERC20 {
         returns (bool success)
     {
         // if the allowance isn't 0, it can only be updated to 0 to prevent an allowance change immediately after withdrawal
-        require(_value == 0 || allowance[msg.sender][_spender] == 0);
+        require(_value == 0 || allowance[msg.sender][_spender] == 0, "value not equals 0 or spender of allowance not equals 0");
 
         allowance[msg.sender][_spender] = _value;
         emit Approval(msg.sender, _spender, _value);
@@ -144,40 +144,40 @@ contract StandardToken is BasicToken, ERC20 {
 }
 
 contract MintableToken is StandardToken, Ownable {
-  event Mint(address indexed to, uint256 value);
-  event MintFinished();
+    event Mint(address indexed to, uint256 value);
+    event MintFinished();
 
-  bool public mintingFinished = false;
-  uint256 public totalSupply = 0;
+    bool public mintingFinished = false;
+    uint256 public totalSupply = 0;
 
 
-  modifier canMint() {
-      require(!mintingFinished);
-    _;
-  }
+    modifier canMint() {
+        require(!mintingFinished);
+        _;
+    }
 
-  /**
-   * @dev Function to mint tokens
-   * @param _to The address that will recieve the minted tokens.
-   * @param _amount The amount of tokens to mint.
-   * @return A boolean that indicates if the operation was successful.
-   */
-  function mint(address _to, uint256 _amount) public onlyOwner canMint returns (bool) {
-    totalSupply = totalSupply.add(_amount);
-    balances[_to] = balances[_to].add(_amount);
-    emit Mint(_to, _amount);
-    return true;
-  }
+    /**
+    * @dev Function to mint tokens
+    * @param _to The address that will recieve the minted tokens.
+    * @param _amount The amount of tokens to mint.
+    * @return A boolean that indicates if the operation was successful.
+    */
+    function mint(address _to, uint256 _amount) public onlyOwner canMint returns (bool) {
+        totalSupply = totalSupply.add(_amount);
+        balances[_to] = balances[_to].add(_amount);
+        emit Mint(_to, _amount);
+        return true;
+    }
 
-  /**
-   * @dev Function to stop minting new tokens.
-   * @return True if the operation was successful.
-   */
-  function finishMinting() public onlyOwner returns (bool) {
-    mintingFinished = true;
-    emit MintFinished();
-    return true;
-  }
+    /**
+    * @dev Function to stop minting new tokens.
+    * @return True if the operation was successful.
+    */
+    function finishMinting() public onlyOwner returns (bool) {
+        mintingFinished = true;
+        emit MintFinished();
+        return true;
+    }
 }
 
 contract KmMintableToken is MintableToken {
@@ -197,120 +197,121 @@ contract KmMintableToken is MintableToken {
 
  
 contract ERC223Token is KmMintableToken {
-  using SafeMath for uint256;
+    using SafeMath for uint256;
 
-//   mapping(address => uint256) balances;
+    //mapping(address => uint256) balances;
   
-  string public name;
-  string public symbol;
-  uint8 public decimals;
-  
+    string public name;
+    string public symbol;
+    uint8 public decimals;
+    
 
-  constructor (string _name, string _symbol, uint8 _decimals) public {
-      name = _name;
-      symbol = _symbol;
-      decimals = _decimals;
+    constructor (string _name, string _symbol, uint8 _decimals) public {
+        name = _name;
+        symbol = _symbol;
+        decimals = _decimals;
+    }
+    
+    //   // Function to access name of token .
+    //   function name() public view returns (string _name) {
+    //       return name;
+    //   }
+    //   // Function to access symbol of token .
+    //   function symbol() public view returns (string _symbol) {
+    //       return symbol;
+    //   }
+    //   // Function to access decimals of token .
+    //   function decimals() public view returns (uint8 _decimals) {
+    //       return decimals;
+    //   }
+    //   // Function to access total supply of tokens .
+    //   function totalSupply() public view returns (uint256 _totalSupply) {
+    //       return totalSupply;
+    //   }
+  
+  
+    // Function that is called when a user or another contract wants to transfer funds .
+    function transfer(address _to, uint256 _value, bytes _data, string _custom_fallback) 
+        private 
+        // onlyPayloadSize(3 * 32)
+        returns (bool success) {
+      
+        if(isContract(_to)) {
+            balances[msg.sender] = balanceOf(msg.sender).sub(_value);
+            balances[_to] = balanceOf(_to).add(_value);
+            //no need to parse value , if you need to send value, use address.transfer() instead.
+            assert(_to.call.(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));
+            emit Transfer(msg.sender, _to, _value, _data);
+            return true;
+        }
+        else {
+            return transferToAddress(_to, _value, _data);
+        }
     }
   
-//   // Function to access name of token .
-//   function name() public view returns (string _name) {
-//       return name;
-//   }
-//   // Function to access symbol of token .
-//   function symbol() public view returns (string _symbol) {
-//       return symbol;
-//   }
-//   // Function to access decimals of token .
-//   function decimals() public view returns (uint8 _decimals) {
-//       return decimals;
-//   }
-//   // Function to access total supply of tokens .
-//   function totalSupply() public view returns (uint256 _totalSupply) {
-//       return totalSupply;
-//   }
+
+    // Function that is called when a user or another contract wants to transfer funds .
+    function transfer(address _to, uint256 _value, bytes _data) 
+        private
+        // onlyPayloadSize(3 * 32)
+        returns (bool success) {
+        
+        if(isContract(_to)) {
+            return transferToContract(_to, _value, _data);
+        }
+        else {
+            return transferToAddress(_to, _value, _data);
+        }
+    }
   
-  
-  // Function that is called when a user or another contract wants to transfer funds .
-  function transfer(address _to, uint256 _value, bytes _data, string _custom_fallback) 
-    private 
-    // onlyPayloadSize(3 * 32)
-    returns (bool success) {
-      
-    if(isContract(_to)) {
+    // Standard function transfer similar to ERC20 transfer with no _data .
+    // Added due to backwards compatibility reasons .
+    function transfer(address _to, uint256 _value) 
+        public
+        // onlyPayloadSize(3 * 32)
+        returns (bool success) {
+        
+        //standard function transfer similar to ERC20 transfer with no _data
+        //added due to backwards compatibility reasons
+        bytes memory empty;
+        if(isContract(_to)) {
+            return transferToContract(_to, _value, empty);
+        }
+        else {
+            return transferToAddress(_to, _value, empty);
+        }
+    }
+
+    //assemble the given address bytecode. If bytecode exists then the _addr is a contract.
+    function isContract(address _addr) private view returns (bool is_contract) {
+        uint256 length;
+        assembly {
+                //retrieve the size of the code on target address, this needs assembly
+                length := extcodesize(_addr)
+        }
+        return (length>0);
+    }
+
+    //function that is called when transaction target is an address
+    function transferToAddress(address _to, uint256 _value, bytes _data) private returns (bool success) {
         balances[msg.sender] = balanceOf(msg.sender).sub(_value);
         balances[_to] = balanceOf(_to).add(_value);
-        assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));
         emit Transfer(msg.sender, _to, _value, _data);
         return true;
     }
-    else {
-        return transferToAddress(_to, _value, _data);
-    }
-}
-  
-
-  // Function that is called when a user or another contract wants to transfer funds .
-  function transfer(address _to, uint256 _value, bytes _data) 
-    private
-    // onlyPayloadSize(3 * 32)
-    returns (bool success) {
-      
-    if(isContract(_to)) {
-        return transferToContract(_to, _value, _data);
-    }
-    else {
-        return transferToAddress(_to, _value, _data);
-    }
-}
-  
-  // Standard function transfer similar to ERC20 transfer with no _data .
-  // Added due to backwards compatibility reasons .
-  function transfer(address _to, uint256 _value) 
-    public
-    // onlyPayloadSize(3 * 32)
-    returns (bool success) {
-      
-    //standard function transfer similar to ERC20 transfer with no _data
-    //added due to backwards compatibility reasons
-    bytes memory empty;
-    if(isContract(_to)) {
-        return transferToContract(_to, _value, empty);
-    }
-    else {
-        return transferToAddress(_to, _value, empty);
-    }
-}
-
-  //assemble the given address bytecode. If bytecode exists then the _addr is a contract.
-  function isContract(address _addr) private view returns (bool is_contract) {
-      uint256 length;
-      assembly {
-            //retrieve the size of the code on target address, this needs assembly
-            length := extcodesize(_addr)
-      }
-      return (length>0);
+    
+    //function that is called when transaction target is a contract
+    function transferToContract(address _to, uint256 _value, bytes _data) private returns (bool success) {
+        balances[msg.sender] = balanceOf(msg.sender).sub(_value);
+        balances[_to] = balanceOf(_to).add(_value);
+        ContractReceiver receiver = ContractReceiver(_to);
+        receiver.tokenFallback(msg.sender, _value, _data);
+        emit Transfer(msg.sender, _to, _value, _data);
+        return true;
     }
 
-  //function that is called when transaction target is an address
-  function transferToAddress(address _to, uint256 _value, bytes _data) private returns (bool success) {
-    balances[msg.sender] = balanceOf(msg.sender).sub(_value);
-    balances[_to] = balanceOf(_to).add(_value);
-    emit Transfer(msg.sender, _to, _value, _data);
-    return true;
-  }
-  
-  //function that is called when transaction target is a contract
-  function transferToContract(address _to, uint256 _value, bytes _data) private returns (bool success) {
-    balances[msg.sender] = balanceOf(msg.sender).sub(_value);
-    balances[_to] = balanceOf(_to).add(_value);
-    ContractReceiver receiver = ContractReceiver(_to);
-    receiver.tokenFallback(msg.sender, _value, _data);
-    emit Transfer(msg.sender, _to, _value, _data);
-    return true;
-}
 
-
-  function balanceOf(address who) public view returns (uint256 balance) {
-    return balances[who];
-  }
+    function balanceOf(address who) public view returns (uint256 balance) {
+        return balances[who];
+    }
 }
