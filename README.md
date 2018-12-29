@@ -15,3 +15,4 @@ All inbox for Blockchain Workshop
 ช่องทางสื่อสารของผู้เข้ามาทำ Blockchain Workshop
 
 <img src="https://github.com/wichit/blockchain/blob/master/crowdfunding.jpg">
+Be sure to have your SSH key set up and that your public key (located in ~/.ssh/id_rsa.pub) is added to your GitHub account.
